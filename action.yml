@@ -1,5 +1,5 @@
-name: 'Trigger remote/local Github Action'
-description: 'Trigger a github action from this action'
+name: 'Propagate GitHub Release Event'
+description: 'Trigger workflows in remote GitHub repository'
 
 inputs:
   name:
