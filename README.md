@@ -1,6 +1,8 @@
-# Fetch GH Release Asset from one repository and publish to Another.
+# Propagate GitHub Release Build Artifacts
 
-This action replicates a Github release from one repository to another. Private repos are supported.
+Fetch GitHub Release assets from one repository and publish to another repository.
+
+This action replicates a Github Release artifacts from one repository to another. Private repos are supported.
 
 ## Inputs
 
