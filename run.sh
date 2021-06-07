@@ -17,6 +17,11 @@ if ! [[ -z ${INPUT_NAME} ]]; then
   NAME=$INPUT_NAME
 fi
 
+VERSION=$INPUT_VERSION
+if ! [[ -z ${INPUT_VERSION} ]]; then
+  VERSION=$INPUT_VERSION
+fi
+
 # Optional personal access token for external repository
 TOKEN=$GITHUB_TOKEN
 if ! [[ -z ${INPUT_TOKEN} ]]; then
@@ -25,9 +30,12 @@ fi
 
 echo "Fetching latest revision...."
 REVISION_API_URL="https://$GITHUB_API_URL/repos/$REPO/releases"
-LATEST_VERSION=$(curl -H "Authorization: token $TOKEN" $REVISION_API_URL | jq -r '.[0]' | jq -r .tag_name)
-REVISION=$(cut -d '-' -f2 <<<"$LATEST_VERSION")
-REVISION=$(($REVISION+1))
+LATEST_VERSION=$(curl -H "Authorization: token $TOKEN" $REVISION_API_URL | jq -r ".[] | select(.tag_name|test(\"${VERSION}\"))" | awk 'NR==1{print $1}')
+REVISION="1"
+if ! [[ -z ${LATEST_VERSION} ]]; then
+    REVISION=$(cut -d '-' -f2 <<<"$LATEST_VERSION")
+    REVISION=$(($REVISION+1))
+fi
 echo "Latest revision: $REVISION"
 
 WORKFLOW_API_URL="https://$GITHUB_API_URL/repos/$REPO/actions/workflows"
