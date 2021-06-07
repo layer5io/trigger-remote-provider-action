@@ -30,7 +30,7 @@ fi
 
 echo "Fetching latest revision...."
 REVISION_API_URL="https://$GITHUB_API_URL/repos/$REPO/releases"
-LATEST_VERSION=$(curl -H "Authorization: token $TOKEN" $REVISION_API_URL | jq -r ".[] | select(.tag_name|test(\"${VERSION}\"))" | awk 'NR==1{print $1}')
+LATEST_VERSION=$(curl -H "Authorization: token $TOKEN" $REVISION_API_URL | jq -r ".[] | select(.tag_name|test(\"${VERSION}\"))" | jq -r .tag_name | awk 'NR==1{print $1}')
 echo "Latest version: $LATEST_VERSION"
 REVISION="1"
 if ! [[ -z ${LATEST_VERSION} ]]; then
